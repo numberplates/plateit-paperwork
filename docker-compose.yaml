@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  plateit-paperwork: 
+    container_name: plateit-paperwork-container
+    build:
+      context: .
+    ports:
+      - '8080:80'
+    restart: unless-stopped
