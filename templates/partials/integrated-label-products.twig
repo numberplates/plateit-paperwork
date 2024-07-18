@@ -1,0 +1,22 @@
+<h2>Extras</h2>
+
+<table class="products">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>SKU</th>
+            <th>Price</th>
+            <th>QTY</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.sku }}</td>
+            <td>{{ product.price|format_price }}</td>
+            <td>{{ product.qty }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

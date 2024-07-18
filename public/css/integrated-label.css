@@ -1,0 +1,196 @@
+/**
+ * The measurement units in this file are in milimetres and points instead of
+ * pixels.
+ *
+ * Sadly, each browser renders the print page slightly differently. Currently it
+ * works best in Google Chrome (to get the customs form in the correct position
+ * for the self adhesive sticker).
+ */
+
+@page {
+    size: 21cm 29.7cm; /* A4 */
+    margin: 0; /* hides the default headers and footers (page numbers, urls etc). */
+}
+
+/**
+ * Body
+ */
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+    margin: 0 10mm;
+    padding: 0;
+    font-size: 7pt;
+    font-family: helvetica, sans-serif;
+}
+
+p {
+	margin: 0 0 5mm;
+}
+
+article {
+    padding-top: 10mm;
+}
+
+/**
+ * Headings
+ */
+
+h1, h2, h3, h4, h5, h6 {
+	line-height: 1.2;
+	margin: 0 0 1em;
+	padding: 1em 0 0;
+	word-wrap: break-word;
+}
+
+h1, .h1 {
+	font-size: 1.625em;
+	padding-top: 0.5em;
+}
+
+h2, .h2 {
+	font-size: 1.3125em;
+}
+
+/**
+ * Blockquotes (notes)
+ */
+
+blockquote {
+	font-size: 1.5em;
+	font-style: italic;
+	margin: 0 0 1.5em;
+	padding-left: 0.75em;
+	padding-right: 0.75em;
+}
+
+cite {
+	color: #999;
+	display: block;
+	font-size: 0.75em;
+	padding-top: 1em;
+}
+
+/**
+ * Page Break
+ */
+
+article, .page-break {
+    page-break-after: always;
+}
+
+/**
+ * Tables
+ */
+
+ table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	max-width: 100%;
+	width: 100%;
+}
+
+th,
+td {
+	text-align: left;
+}
+
+th {
+	font-weight: bold;
+	vertical-align: bottom;
+}
+
+td {
+	vertical-align: top;
+}
+
+td.is-half-page {
+    width: 50%;
+}
+
+td.is-third-page {
+    width: 33.3333333333%;
+}
+
+td.is-quarter-page {
+    width: 25%;
+}
+
+/**
+ * Plate Table
+ */
+
+table.plate {
+	margin-bottom: 10mm;
+}
+
+table.plate img {
+	width: 100%;
+	border: 1px solid #999;
+}
+
+table.plate table.inner {
+	margin-left: 5mm;
+}
+
+table.plate table.inner th {
+	width: 30%;
+}
+
+table.plate table.inner tr {
+	border-bottom: 1px solid #999;
+}
+
+/**
+ * Products Table
+ */
+
+table.products td, .totals th {
+	border-top: 1px solid #999;
+	border-bottom: 1px solid #999;
+}
+
+/**
+ * Sticky Labels Table
+ */
+
+table.sticky-labels {
+    margin-top: 5mm;
+	margin-bottom: 25mm;
+}
+
+/**
+ * Highlights
+ */
+
+span.highlight {
+    font-size: 125%;
+    font-weight: bold;
+}
+
+span.highlight.yellow {
+    background: yellow;
+    color: red;
+}
+
+span.highlight.white, span.highlight.silver {
+    background: lightgray;
+    color: black;
+}
+
+span.highlight.green {
+    background: green;
+    color: black;
+}
+
+span.highlight.black {
+    background: black;
+    color: white;
+}
+
+span.important {
+    color: red;
+}

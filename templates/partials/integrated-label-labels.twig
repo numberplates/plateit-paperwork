@@ -1,0 +1,35 @@
+{% set label_width = 80 %}
+{% set label_count = package.labels|length %}
+{% set total_tables = label_count // 2 %}
+
+{% for i in 0..total_tables %}
+    {#
+        There are spaces for 2x labels per page. If the label count exceeds this
+        a page break will be inserted and the remaining labels and paperwork
+        will be printed on a following page.
+    #}
+    <table class="sticky-labels {% if i > 0 %}page-break{% endif %}">
+        <tbody>
+            <tr>
+                <td class="border-none" style="text-align: center;">
+                    <img style="width: {{ label_width }}mm;" alt="label" src="/temp/{{ package.labels[i * 2] }}.png">
+                </td>
+                {% set second_label_index = i * 2 + 1 %}
+                {% if second_label_index < label_count %}
+                    <td class="border-none" style="text-align: center;">
+                        <img style="width: {{ label_width }}mm;" alt="label" src="/temp/{{ package.labels[second_label_index] }}.png">
+                    </td>
+                {% else %}
+                    {#
+                        If there is an odd number of labels, to ensure the last
+                        label aligns to the left of the page instead of the centre,
+                        an empty label is inserted here.
+                    #}
+                    <td class="border-none" style="text-align: center;">
+                        <img style="width: {{ label_width }}mm;" alt="pixel" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQYV2P4DwABAQEAWk1v8QAAAABJRU5ErkJggg==">
+                    </td>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+{% endfor %}

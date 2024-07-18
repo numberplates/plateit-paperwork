@@ -1,0 +1,10 @@
+<h2>Notes</h2>
+
+{% for note in notes %}
+<blockquote>
+    {{ note.note }}
+    <cite>
+        {{ note.name }}
+    </cite>
+</blockquote>
+{% endfor %}
