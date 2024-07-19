@@ -1,5 +1,7 @@
+
+
 /**
- * The measurement units in this file are in milimetres and points instead of
+ * Many measurement units in this file are in milimetres and points instead of
  * pixels.
  *
  * Sadly, each browser renders the print page slightly differently. Currently it
@@ -8,9 +10,14 @@
  */
 
 @page {
-    size: 21cm 29.7cm; /* A4 */
-    margin: 0; /* hides the default headers and footers (page numbers, urls etc). */
+	size: 210mm 297mm; /* A4 */
+	margin-top: 15mm;
+	margin-right: 15mm;
+	margin-bottom: 15mm;
+	margin-left: 15mm;
 }
+
+
 
 /**
  * Body
@@ -21,7 +28,7 @@ html {
 }
 
 body {
-    margin: 0 10mm;
+    margin: 0;
     padding: 0;
     font-size: 7pt;
     font-family: helvetica, sans-serif;
@@ -123,25 +130,19 @@ td.is-quarter-page {
  * Plate Table
  */
 
-table.plate {
-	margin-bottom: 10mm;
+table.plates td {
+	vertical-align: top;
 }
 
-table.plate img {
-	width: 100%;
+table.plates div {
+	margin: 3mm;
+	padding: 3mm;
 	border: 1px solid #999;
 }
 
-table.plate table.inner {
-	margin-left: 5mm;
-}
-
-table.plate table.inner th {
-	width: 30%;
-}
-
-table.plate table.inner tr {
-	border-bottom: 1px solid #999;
+table.plates div img {
+	width: 100%;
+	border: 1px solid #999;
 }
 
 /**
@@ -158,8 +159,8 @@ table.products td, .totals th {
  */
 
 table.sticky-labels {
-    margin-top: 5mm;
-	margin-bottom: 25mm;
+    margin-top: -10mm;
+	margin-bottom: 15mm;
 }
 
 /**
@@ -193,4 +194,22 @@ span.highlight.black {
 
 span.important {
     color: red;
+}
+
+/**
+ * Description Lists
+ */
+
+dl {
+	display: grid;
+	grid-template-columns: max-content auto;
+}
+
+dt {
+	grid-column-start: 1;
+	font-weight: bold;
+}
+
+dd {
+	grid-column-start: 2;
 }

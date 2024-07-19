@@ -1,23 +1,24 @@
 {% set label_width = 80 %}
 {% set label_count = package.labels|length %}
-{% set total_tables = label_count // 2 %}
+{% set total_tables = (label_count + 1) // 2 %}
 
-{% for i in 0..total_tables %}
+{% for i in 0..total_tables - 1 %}
     {#
         There are spaces for 2x labels per page. If the label count exceeds this
         a page break will be inserted and the remaining labels and paperwork
         will be printed on a following page.
     #}
-    <table class="sticky-labels {% if i > 0 %}page-break{% endif %}">
+    {% if i > 0 %}<div class="page-break"></div>{% endif %}
+    <table class="sticky-labels">
         <tbody>
             <tr>
                 <td class="border-none" style="text-align: center;">
-                    <img style="width: {{ label_width }}mm;" alt="label" src="/temp/{{ package.labels[i * 2] }}.png">
+                    <img style="width: {{ label_width }}mm;" alt="label" src="{{ env.PLATEIT_BASE_URL ~ package.labels[i * 2]|strip_slashes }}">
                 </td>
                 {% set second_label_index = i * 2 + 1 %}
                 {% if second_label_index < label_count %}
                     <td class="border-none" style="text-align: center;">
-                        <img style="width: {{ label_width }}mm;" alt="label" src="/temp/{{ package.labels[second_label_index] }}.png">
+                        <img style="width: {{ label_width }}mm;" alt="label" src="{{ env.PLATEIT_BASE_URL ~ package.labels[second_label_index]|strip_slashes }}">
                     </td>
                 {% else %}
                     {#

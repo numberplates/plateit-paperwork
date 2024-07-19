@@ -1,10 +1,11 @@
 # Use the official PHP image with Apache.
 FROM php:8.2-apache
 
-# Install system dependencies.
+# Install system dependencies and php-bcmath.
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
+    && docker-php-ext-install bcmath \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory to /var/www/html.

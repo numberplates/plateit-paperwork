@@ -1,37 +1,33 @@
 <h2>Plates</h2>
 
-{% for plate in plates %}
-<table class="plate">
-    <tbody>
-        <tr>
-            <td class="is-third-page">
-                <img src="https://data.plateit.local/v1{{ plate.preview_file }}" alt="{{ plate.registration }} preview">
-            </td>
-            <td>
-                <table class="inner">
-                    <tr>
-                        <th>Registration</th>
-                        <td>{{ plate.registration }}</td>
-                    </tr>
-                    <tr>
-                        <th>Type</th>
-                        <td>{{ plate.type|capitalize }}</td>
-                    </tr>
-                    <tr>
-                        <th>Colour</th>
-                        <td><span class="highlight {{ plate.colour }}">{{ plate.colour|capitalize }}</span></td>
-                    </tr>
-                    <tr>
-                        <th>Width</th>
-                        <td>{{ plate.width }}x{{ plate.height }}mm</td>
-                    </tr>
-                    <tr>
-                        <th>QTY</th>
-                        <td><span class="highlight important">{{ plate.qty }}</span></td>
-                    </tr>
-                </table>
-            </td>
-        <tr>
-    </tbody>
+
+<table class="plates">
+    {% for plate in plates %}
+        {% if loop.index is odd %}
+            <tr>
+        {% endif %}
+        <td>
+            <div>
+                <img src="{{ env.PLATEIT_BASE_URL ~ plate.preview_file|strip_slashes }}" alt="{{ plate.registration }} preview">
+                <dl>
+                    <dt>Registration</dt>
+                    <dd>{{ plate.registration }}</dd>
+                    <dt>Type</dt>
+                    <dd>{{ plate.type|capitalize }}</dd>
+                    <dt>Colour</dt>
+                    <dd><span class="highlight {{ plate.colour }}">{{ plate.colour|capitalize }}</span></dd>
+                    <dt>Size</dt>
+                    <dd>{{ plate.width|mm_to_inches }}x{{ plate.height|mm_to_inches }}in <small>({{ plate.width }}x{{ plate.height }}mm)</small></dd>
+                    <dt>QTY</dt>
+                    <dd><span class="highlight important">{{ plate.qty }}</span></dd>
+                </dl>
+            </div>
+        </td>
+        {% if loop.index is even %}
+            </tr>
+        {% endif %}
+    {% endfor %}
+    {% if plates|length is odd %}
+        <td></td></tr>
+    {% endif %}
 </table>
-{% endfor %}
