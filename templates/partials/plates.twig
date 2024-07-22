@@ -1,0 +1,19 @@
+<section class="items plates">
+    <h2>Plates</h2>
+    <table>
+        <tr>
+            <th>Registration</th>
+            <th>Type</th>
+            <th>Colour</th>
+            <th>QTY</th>
+        </tr>
+        {% for plate in plates %}
+        <tr>
+            <td>{{ plate.registration|upper }}</td>
+            <td>{{ plate.type|capitalize }}</td>
+            <td>{{ plate.colour|capitalize }}</td>
+            <td>{{ plate.qty }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</section>

@@ -1,0 +1,11 @@
+<section class="notes">
+    <h2>Notes</h2>
+        {% for note in notes|filter(note => not note.is_private) %}
+        <blockquote>
+            <p>{{ note.note }}</p>
+            {% if note.company_user.first_name %}
+            <cite>{{ note.company_user.first_name }}</cite>
+            {% endif %}
+        </blockquote>
+        {% endfor %}
+</section>

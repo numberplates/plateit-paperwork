@@ -27,7 +27,7 @@ if(empty($payload)) {
 }
 
 // Render the html for printing.
-echo $twig->render('integrated-label.twig', [
+echo $twig->render('packing-slip.twig', [
    'packages' => $payload,
    'env' => $_ENV
 ]);

@@ -1,0 +1,23 @@
+{% set packages_count = package.order.packages_count %}
+<section class="summary flex">
+
+    <div class="summary-details">
+        <dl>
+            <dt>Order Number</dt>
+            <dd>{{ package.order_id }}</dd>
+            <dt>Package ID</dt>
+            <dd>{{ package.id }}</dd>
+            <dt>Order Placed</dt>
+            <dd>{{ package.order.created_at|date('Y-m-d') }}</dd>
+            <dt>Shipping</dt>
+            <dd>{{ package.shipping.name|strip_slashes }}</dd>
+        </dl>
+    </div>
+    
+    {% if packages_count > 1 %}
+    <div class="summary-notice">
+        <p><strong>Please note:</strong> This is 1 package of {{ packages_count }}. The remaining packages are being sent separately.</p>
+    </div>
+    {% endif %}
+    
+</section>

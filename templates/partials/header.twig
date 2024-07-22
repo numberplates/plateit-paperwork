@@ -1,0 +1,26 @@
+{% set fields = [
+    'address_line_1',
+    'address_line_2',
+    'address_line_3',
+    'address_postcode',
+    'phone_number',
+    'email'
+] %}
+<header class="header flex">
+    <div class="company-address">
+    <p><strong>{{ company.name }}</strong></p>
+    {% for field in fields %}
+        {% if company[field] %}
+            <p>{{ company[field] }}</p>
+        {% endif %}
+    {% endfor %}
+    </div>
+    <div class="customer-address">
+    <p>{{ send_to.first_name }} {{ send_to.last_name }}</p>
+    {% for field in fields %}
+        {% if send_to[field] %}
+            <p>{{ send_to[field] }}</p>
+        {% endif %}
+    {% endfor %}
+    </div>
+</header>

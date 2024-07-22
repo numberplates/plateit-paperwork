@@ -1,0 +1,12 @@
+{% set labels_batched = labels|batch(2) %}
+
+{% for batch in labels_batched %}
+    <section class="labels flex">
+        {% for label in batch %}
+            <img class="label" alt="label" src="{{ env.PLATEIT_BASE_URL ~ label|strip_slashes }}">
+        {% endfor %}
+    </section>
+    {% if not loop.last %}
+        <div class="page-break"></div>
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Packing Slips</title>
+    {% set random = random(1, 1000000) %}
+    <link rel="stylesheet" href="public/css/packing-slip.css?v={{ random }}">
+</head>
+<body>
+    {% for package in packages %}
+        <article> 
+
+            {# Labels #}
+            {% if package.labels|length %}
+                {{ include('/partials/labels.twig', {'labels': package.labels }) }}
+            {% endif %}
+
+            {# Header #}
+            {{ include('/partials/header.twig', {'company': package.company, 'send_to': package.order. send_to }) }}
+
+            <h1>Packing Slip</h1>
+
+            {# Summary #}
+            {{ include('/partials/summary.twig', { 'package': package }) }}
+
+            {# Plates #}
+            {% if package.plates|length %}
+                {# {{ include('/partials/plates.twig', { 'plates': package.plates }) }} #}
+                {{ include('/partials/plates-grid.twig', { 'plates': package.plates }) }}
+            {% endif %}
+
+            {# Extras #}
+            {% if package.products|length %}
+                {{ include('/partials/products.twig', { 'products': package.products }) }}
+            {% endif %}
+            
+            {# Notes #}
+            {% if package.notes|filter(note => not note.is_private)|length %}
+                {{ include('/partials/notes.twig', { 'notes': package.notes }) }}
+            {% endif %}
+
+        </article>
+
+        {# Break #}
+        {% if not loop.last %}
+            <div class="page-break"></div>
+        {% endif %}
+
+    {% endfor %}
+</body>
+</html>
