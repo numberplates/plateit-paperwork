@@ -2,10 +2,6 @@
 // Import dependencies.
 require_once 'vendor/autoload.php';
 
-// Load environment variables.
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
 // Set default values for environment variables if they are not already set.
 putenv('PLATEIT_BASE_URL=' . ($_ENV['PLATEIT_BASE_URL'] ?? 'https://data.plateit.co.uk/v1'));
 
