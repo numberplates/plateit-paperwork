@@ -14,8 +14,8 @@
         <article> 
 
             {# Labels #}
-            {% if package.labels|length %}
-                {{ include('/partials/labels.twig', {'labels': package.labels }) }}
+            {% if package.shipping.label_files|length %}
+                {{ include('/partials/labels.twig', {'label_filepaths': package.shipping.label_files }) }}
             {% endif %}
 
             {# Header #}

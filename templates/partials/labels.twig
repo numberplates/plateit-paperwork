@@ -1,9 +1,9 @@
-{% set labels_batched = labels|batch(2) %}
+{% set label_filepaths_batched = label_filepaths|batch(2) %}
 
-{% for batch in labels_batched %}
+{% for batch in label_filepaths_batched %}
     <section class="labels flex">
-        {% for label in batch %}
-            <img class="label" alt="label" src="{{ env.PLATEIT_BASE_URL ~ label|strip_slashes }}">
+        {% for label_filepath in batch %}
+            <img class="label" alt="label" src="{{ env.PLATEIT_BASE_URL ~ label_filepath|strip_slashes }}">
         {% endfor %}
     </section>
     {% if not loop.last %}
