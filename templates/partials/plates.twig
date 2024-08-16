@@ -1,3 +1,5 @@
+{% set has_instructions = plates|filter(plate => plate.custom_instructions is not null)|length > 0 %}
+
 <section class="items plates">
     <h2>Plates</h2>
     <table>
@@ -6,6 +8,9 @@
             <th>Type</th>
             <th>Colour</th>
             <th>QTY</th>
+            {% if has_instructions %}
+                <th>Instructions</th>
+            {% endif %}
         </tr>
         {% for plate in plates %}
         <tr>
@@ -13,6 +18,9 @@
             <td>{{ plate.type|capitalize }}</td>
             <td>{{ plate.colour|capitalize }}</td>
             <td>{{ plate.qty }}</td>
+            {% if has_instructions %}
+                 <td>{{ plate.custom_instructions }}</td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>

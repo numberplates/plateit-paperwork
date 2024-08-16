@@ -14,6 +14,10 @@
                     <dd>{{ plate.colour|capitalize }}</dd>
                     <dt>QTY</dt>
                     <dd>{{ plate.qty }}</dd>
+                    {% if plate.custom_instructions %}
+                        <dt>Instructions</dt>
+                        <dd>{{ plate.custom_instructions }}</dd>
+                    {% endif %}
                 </dl>
             </div>
         </div>
