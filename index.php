@@ -3,7 +3,7 @@
 require_once 'vendor/autoload.php';
 
 // Set default values for environment variables if they are not already set.
-putenv('PLATEIT_BASE_URL=' . ($_ENV['PLATEIT_BASE_URL'] ?? 'https://data.plateit.co.uk/v1'));
+putenv('PLATEIT_BASE_URL=' . ($_ENV['PLATEIT_BASE_URL'] ?? 'https://data.plateit.co.uk/v3'));
 
 // Initialise the Twig template engine.
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
