@@ -23,7 +23,7 @@ class ManualShippingLabel
      * setOptions() method @var array
      */
     private $options = [
-        'hasTransparentBg'  => false,
+        'hasTransparentBg'  => true,
         'width'             => 1200,
         'height'            => 800,
         'fontFile'          => 'fonts/OpenSans-Medium.ttf',
