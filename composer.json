@@ -2,11 +2,15 @@
     "name": "plateit/paperwork",
     "description": "Render html paperwork for printing Plateit packages.",
     "require": {
-        "twig/twig": "^3.10"
+        "twig/twig": "^3.10",
+        "picqer/php-barcode-generator": "^3.2"
     },
     "autoload": {
         "files": [
-            "functions.php"
-        ]
+            "./utils/functions.php"
+        ],
+        "psr-4": {
+            "Paperwork\\": "./classes/"
+        }
     }
 }

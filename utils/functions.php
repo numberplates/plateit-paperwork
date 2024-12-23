@@ -44,3 +44,44 @@ function mmToReadableInches($mm) : string
     $roundedString = number_format($rounded, 1, '.', '');
     return rtrim($roundedString, '.0');
 }
+
+/**
+ * Takes an associative array and recursively generates an HTML structure where
+ * each key-value pair is represented as a list item. If a value is an array, it
+ * will be rendered as a nested list.
+ */
+function renderArrayAsHtmlList(array $array) : string
+{
+    $output = '<ul>';
+    foreach ($array as $key => $value) {
+        $output .= '<li>' . htmlspecialchars($key) . ': ';
+        if (is_array($value) && isAssociativeArray($value)) {
+            $output .= renderArrayAsHtmlList($value);
+        }
+        else if (is_array($value)) {
+            $output .= json_encode($value);
+        }
+        else {
+            $output .= htmlspecialchars($value ?? 'N/A');
+        }
+        $output .= '</li>';
+    }
+    $output .= '</ul>';
+    return $output;
+}
+
+/**
+ * Returns true if the given array is an associative array.
+ */
+function isAssociativeArray(array $array): bool
+{
+    if (empty($array)) {
+        return false;
+    }
+    foreach (array_keys($array) as $key) {
+        if (is_string($key)) {
+            return true;
+        }
+    }
+    return false;
+}

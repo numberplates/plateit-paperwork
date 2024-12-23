@@ -1,3 +1,5 @@
+{% set plates = get_scrutinised_plates(plates) %}
+{% set has_scrutinise = plates|filter(plate => plate.scrutinise is not null)|length > 0 %}
 {% set has_instructions = plates|filter(plate => plate.custom_instructions is not null)|length > 0 %}
 
 <section class="items plates">
@@ -8,6 +10,9 @@
             <th>Type</th>
             <th>Colour</th>
             <th>QTY</th>
+            {% if has_scrutinise %}
+                <th>Key Differences*</th>
+            {% endif %}
             {% if has_instructions %}
                 <th>Instructions</th>
             {% endif %}
@@ -18,10 +23,17 @@
             <td>{{ plate.type|capitalize }}</td>
             <td>{{ plate.colour|capitalize }}</td>
             <td>{{ plate.qty }}</td>
+            {% if has_scrutinise %}
+                <td>{{ render_array_list(plate.scrutinise)|raw }}</td>
+            {% endif %}
             {% if has_instructions %}
                  <td>{{ plate.custom_instructions }}</td>
             {% endif %}
         </tr>
         {% endfor %}
     </table>
+
+    {% if has_scrutinise %}
+        <p class="asterisk">* Staff notes to assist with manufacturing.</p>
+    {% endif %}
 </section>

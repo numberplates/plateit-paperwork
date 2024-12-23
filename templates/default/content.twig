@@ -1,0 +1,22 @@
+{# Header #}
+{{ include('/default/header.twig', {'company': package.company, 'send_to': package.order. send_to }) }}
+
+<h1>Packing Slip</h1>
+
+{# Summary #}
+{{ include('/default/summary.twig', { 'package': package }) }}
+
+{# Plates #}
+{% if package.plates|length %}
+    {{ include('/default/plates.twig', { 'plates': package.plates }) }}
+{% endif %}
+
+{# Extras #}
+{% if package.products|length %}
+    {{ include('/default/products.twig', { 'products': package.products }) }}
+{% endif %}
+
+{# Notes #}
+{% if package.notes|filter(note => not note.is_private)|length %}
+    {{ include('/default/notes.twig', { 'notes': package.notes }) }}
+{% endif %}

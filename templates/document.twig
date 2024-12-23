@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Packing Slips</title>
+    <style>
+        {{ include('document.css.twig', {'integrated_label_type': 'bespoke'}) }}
+    </style>
+</head>
+<body>
+    {% for package in packages %}
+        <article>
+
+            {# Labels #}
+            {{ include('labels.twig', {'package': package, 'labels_per_page': 1}) }}
+
+            {# Container #}
+            {% set template_path = 'company-' ~ package.order.company_id ~ '/content.twig' %}
+            {% if template_exists(template_path) %}
+                {{ include(template_path, package) }}
+            {% else %}
+                {{ include('/default/content.twig', package) }}
+            {% endif %}
+
+        </article>
+
+        {# Break #}
+        {% if not loop.last %}
+            <div class="page-break"></div>
+        {% endif %}
+
+    {% endfor %}
+</body>
+</html>

@@ -2,6 +2,16 @@
 
 A simple PHP application that renders paperwork html for printing when a JSON payload is posted to it consisting of an array of Plateit packages.
 
+Note: Google Chrome (or Chromium) has been found to render the page styling more accurately than other browsers tested.
+
+## Template Files and Directory Structure
+
+The main HTML document is generated from the `/templates/document.twig` file, which serves as the entry point.
+
+This outer document template will attempt to import a company-specific content template for each package, located at `/templates/company-{id}/content.twig` (the directory's `{id}` placeholder is replaced with the actual company ID).
+
+If a company-specific template directory does not exist with a containing `content.twig` template, the application will fall back to the default packing slip template found at `/templates/default/content.twig`.
+
 ## Usage
 
 The instructions below assume you are using Docker or Podman. If not, when moved to an Apache or NGINX hosting environment, it should *just work* (providing the dependencies have been installed using Composer).

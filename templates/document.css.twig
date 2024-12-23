@@ -1,3 +1,15 @@
+{# Default integrated label styles TBC #}
+{% set page_margin = '10mm' %}
+{% set label_width = '110mm' %}
+{% set label_margin = '37mm 0 0 60mm' %}
+
+{# Alternative integrated label styles #}
+{% if integrated_label_type == 'bespoke' %}
+    {% set page_margin = '10mm' %}
+    {% set label_width = '110mm' %}
+    {% set label_margin = '37mm 0 0 60mm' %}
+{% endif %}
+
 /* Reset */
 * {
     box-sizing: border-box;
@@ -12,19 +24,19 @@ html {
 
 body {
     font-family: Arial, sans-serif;
-    font-size: 10pt;
-    line-height: 1.4em;
+    font-size: 9pt;
+    line-height: 1.2em;
 }
 
 /* Print page styles */
 @page { 
     size: 210mm 297mm; /* A4 */
-    margin: 10mm;
+    margin: {{ page_margin }};
 }
 
 article {
     width: 210mm;
-    padding: 10mm;
+    padding: {{ page_margin }};
 }
 
 @media print {
@@ -60,6 +72,11 @@ dd {
     grid-column-start: 2;
 }
 
+/* Ordered/unordered lists */
+ol li, ul li {
+    margin-left: 1.5em;
+}
+
 /* Flex columns */
 .flex {
     display: flex;
@@ -68,7 +85,8 @@ dd {
 
 /* Integrated labels */
 img.label {
-    width: 80mm;
+    width: {{ label_width }};
+    margin: {{ label_margin }}
 }
 
 /* Sections */
@@ -94,31 +112,18 @@ section, header {
 
 .items th, .items td {
     border: 1px solid #ddd;
-    padding: 5pt;
+    padding: 2pt;
     text-align: left;
+    vertical-align: top;
 }
 
 .items th {
     background-color: #f0f0f0;
 }
 
-/* Plates grid */
-.grid {
-    column-count: 2;
-    column-gap: 5mm;
-}
-
-.grid-item {
-    break-inside: avoid;
-    margin-bottom: 5mm;
-    padding: 3mm;
-    border: 1px solid #ddd;
-}
-
-.grid-item img {
-    width: 100%;
-    height: auto;
-    margin-bottom: 3mm;
+.items .asterisk {
+    margin-top: 1.5em;
+    font-style: italic;
 }
 
 /* Notes section */
