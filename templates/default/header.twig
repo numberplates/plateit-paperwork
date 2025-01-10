@@ -16,10 +16,10 @@
     {% endfor %}
     </div>
     <div class="customer-address">
-    <p>{{ send_to.first_name }} {{ send_to.last_name }}</p>
+    <p>{{ ship_to.first_name }} {{ ship_to.last_name }}</p>
     {% for field in fields %}
-        {% if send_to[field] %}
-            <p>{{ send_to[field] }}</p>
+        {% if ship_to[field] %}
+            <p>{{ ship_to[field] }}</p>
         {% endif %}
     {% endfor %}
     </div>

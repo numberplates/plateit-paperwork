@@ -3,7 +3,12 @@
 {% set has_instructions = plates|filter(plate => plate.custom_instructions is not null)|length > 0 %}
 
 <section class="items plates">
-    <h2>Plates</h2>
+    <h2>
+        Plates
+        {% if has_scrutinise %}
+            <strong class="important">- DIFFERENCES DETECTED</strong>
+        {% endif %}
+    </h2>
     <table>
         <tr>
             <th>Registration</th>
@@ -11,7 +16,7 @@
             <th>Colour</th>
             <th>QTY</th>
             {% if has_scrutinise %}
-                <th>Key Differences*</th>
+                <th class="important">Key Differences*</th>
             {% endif %}
             {% if has_instructions %}
                 <th>Instructions</th>

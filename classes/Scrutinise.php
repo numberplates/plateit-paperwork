@@ -14,7 +14,7 @@ namespace Paperwork;
  * This class processes an array of purchased number plates. It identifies any
  * pairs (or more) of same-size plates that have minor design differences. For
  * such plates, the class appends a "scrutinise" attribute that specifies the
- * design elements requiring double-checking before manufacturing.
+ * design elements that require double-checking before manufacturing.
  */
 class Scrutinise
 {

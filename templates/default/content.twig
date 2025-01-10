@@ -1,7 +1,12 @@
 {# Header #}
-{{ include('/default/header.twig', {'company': package.company, 'send_to': package.order. send_to }) }}
+{{ include('/default/header.twig', {'company': package.company, 'ship_to': package.order. ship_to }) }}
 
-<h1>Packing Slip</h1>
+<h1>
+    Packing Slip
+    {% if package.shipping.system_courier_service.priority_level == 1 %}
+        <strong class="important">- PRIORITY MAIL</strong>
+    {% endif %}
+</h1>
 
 {# Summary #}
 {{ include('/default/summary.twig', { 'package': package }) }}

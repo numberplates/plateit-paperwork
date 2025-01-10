@@ -36,7 +36,7 @@ class ManualShippingLabel
     ];
 
     /**
-     * The keys from the send_to object to utilise. @var array
+     * The keys from the ship_to object to utilise. @var array
      */
     private $addressKeys = [
         'first_name',
@@ -138,12 +138,12 @@ class ManualShippingLabel
         $lineSpacing = $this->options['lineSpacing'];
 
         foreach ($this->addressKeys as $key) {
-            $value = $this->package['order']['send_to'][$key] ?? '';
+            $value = $this->package['order']['ship_to'][$key] ?? '';
 
             // Join the first and last names together on a single line.
             if ($key === 'first_name') {
                 $firstName = $value;
-                $lastName = $this->package['order']['send_to']['last_name'] ?? '';
+                $lastName = $this->package['order']['ship_to']['last_name'] ?? '';
                 $value = $firstName . ' ' . $lastName;
             } elseif ($key === 'last_name') {
                 continue;
