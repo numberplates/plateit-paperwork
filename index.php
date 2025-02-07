@@ -20,8 +20,11 @@ $twig = new \Twig\Environment($loader);
 // Initialise the Scrutinise class.
 $scrutinise = new \Paperwork\Scrutinise();
 
-// Initialise the Scrutinise class.
+// Initialise the ManualShippingLabel class.
 $manualLabel = new \Paperwork\ManualShippingLabel();
+
+// Initialise the IntegratedLabelType class.
+$integratedLabelType = new \Paperwork\IntegratedLabelType();
 
 // Register custom Twig filters.
 $twig->addFilter(new \Twig\TwigFilter('format_price', 'penceToPounds'));
@@ -38,6 +41,11 @@ $twig->addFunction(new \Twig\TwigFunction('render_array_list', function ($array)
    return renderArrayAsHtmlList($array ?? []);
 }));
 
+// Register custom Twig function to return the correct shipping address.
+$twig->addFunction(new \Twig\TwigFunction('get_correct_ship_to_address', function ($packageWithOrder) {
+   return getCorrectShipToAddress($packageWithOrder);
+}));
+
 // Register custom Twig function to find subtle plate design differences.
 $twig->addFunction(new \Twig\TwigFunction('get_scrutinised_plates', function ($plates, $toScrutinise = null) use ($scrutinise) {
    $scrutinise->setPlates($plates);
@@ -45,14 +53,18 @@ $twig->addFunction(new \Twig\TwigFunction('get_scrutinised_plates', function ($p
    return $scrutinise->getScrutinisedPlates();
 }));
 
-// Register custom Twig function to generata manual-post shipping label.
+// Register custom Twig function to generate a manual-post shipping label.
 $twig->addFunction(new \Twig\TwigFunction('get_fallback_label_image', function ($package) use ($manualLabel) {
-   $manualLabel->setPackage($package);
-   return $manualLabel->generateLabel();
+   $shipToAddress = getCorrectShipToAddress($package);
+   return $manualLabel
+      ->setShipToAddress($shipToAddress)
+      ->setBarcodeData($package['id'])
+      ->generateLabel();
 }));
 
 // Render the html for printing.
 echo $twig->render('document.twig', [
+   'label_config' => $integratedLabelType->getLabelType($_GET['type'] ?? null),
    'packages' => $packages,
    'env' => $_ENV
 ]);

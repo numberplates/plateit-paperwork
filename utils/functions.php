@@ -85,3 +85,13 @@ function isAssociativeArray(array $array): bool
     }
     return false;
 }
+
+/**
+ * The shipping address is typically part of the order object. However, it can
+ * be overridden on the package level. This function returns the package-level
+ * address if present, otherwise it falls back to the order level address.
+ */
+function getCorrectShipToAddress(array $packageWithOrder) : array
+{
+    return $packageWithOrder['ship_to_override'] ?? $packageWithOrder['order']['ship_to'] ?? [];
+}

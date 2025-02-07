@@ -1,15 +1,3 @@
-{# Default integrated label styles TBC #}
-{% set page_margin = '10mm' %}
-{% set label_width = '110mm' %}
-{% set label_margin = '37mm 0 0 60mm' %}
-
-{# Alternative integrated label styles #}
-{% if integrated_label_type == 'bespoke' %}
-    {% set page_margin = '10mm' %}
-    {% set label_width = '110mm' %}
-    {% set label_margin = '37mm 0 0 60mm' %}
-{% endif %}
-
 /* Reset */
 * {
     box-sizing: border-box;
@@ -31,12 +19,12 @@ body {
 /* Print page styles */
 @page { 
     size: 210mm 297mm; /* A4 */
-    margin: {{ page_margin }};
+    margin: {{ label_config.page_margin }};
 }
 
 article {
     width: 210mm;
-    padding: {{ page_margin }};
+    padding: {{ label_config.page_margin }};
 }
 
 @media print {
@@ -85,8 +73,8 @@ ol li, ul li {
 
 /* Integrated labels */
 img.label {
-    width: {{ label_width }};
-    margin: {{ label_margin }}
+    width: {{ label_config.label_width }};
+    margin: {{ label_config.label_margin }};
 }
 
 /* Sections */

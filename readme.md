@@ -12,6 +12,18 @@ This outer document template will attempt to import a company-specific content t
 
 If a company-specific template directory does not exist with a containing `content.twig` template, the application will fall back to the default packing slip template found at `/templates/default/content.twig`.
 
+## Default Integrated Label Styles
+
+The application natively supports some popular integrated label styles available from [Priory Direct]('https://www.priorydirect.co.uk/integrated-labels').
+
+* Style `DD` (default)
+* Style `B`
+* Style `UP`
+
+This is handled from inside the `IntegratedLabelType` class. More styles can be set using its constructor method (see the class's doc blocks for more information).
+
+A specific label style can be loaded automatically by passing the style type as a query string. For example: `https://paperwork.plateit.co.uk/?type=UP`.
+
 ## Usage
 
 The instructions below assume you are using Docker or Podman. If not, when moved to an Apache or NGINX hosting environment, it should *just work* (providing the dependencies have been installed using Composer).

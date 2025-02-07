@@ -1,9 +1,11 @@
+{% set labels_per_page = label_config.labels_per_page|default(1) %}
+{% set rotate_degrees = label_config.orientation is same as('portrait') ? 0 : 90 %}
 {% set label_filepaths_batched = (package.shipping.label_files|default(['manual_label']))|batch(labels_per_page) %}
 
 {% for batch in label_filepaths_batched %}
     <section class="labels flex">
         {% for label_filepath in batch %}
-            {% set image_src = label_filepath == 'manual_label' ? get_fallback_label_image(package) : env.PLATEIT_BASE_URL ~ label_filepath|strip_slashes ~ '?rotate=90' %}
+            {% set image_src = label_filepath == 'manual_label' ? get_fallback_label_image(package) : env.PLATEIT_BASE_URL ~ label_filepath|strip_slashes ~ '?rotate=' ~ rotate_degrees %}
             <img class="label" alt="label" src="{{ image_src }}">
         {% endfor %}
     </section>

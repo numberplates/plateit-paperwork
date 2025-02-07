@@ -14,13 +14,18 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 class ManualShippingLabel
 {
     /**
-     * The package to create the label for. @var array
+     * The shipping address. @var array
      */
-    private $package;
+    private $shipToAddress;
+
+    /**
+     * The data for the optional barcode. @var int|string
+     */
+    private $barcodeData;
 
     /**
      * Default label options. Can be overidden using the constructor or the
-     * setOptions() method @var array
+     * setOptions() method. @var array
      */
     private $options = [
         'hasTransparentBg'  => true,
@@ -36,7 +41,7 @@ class ManualShippingLabel
     ];
 
     /**
-     * The keys from the ship_to object to utilise. @var array
+     * The keys to utilise from the shipping address. @var array
      */
     private $addressKeys = [
         'first_name',
@@ -49,12 +54,16 @@ class ManualShippingLabel
     ];
 
     /**
-     * Constructor optionally sets the package and the label options
+     * Constructor optionally sets the shipping address, barcode data and label
+     * options.
      */
-    public function __construct(array $package = null, array $options = null)
+    public function __construct(array $shipToAddress = null, int|string $barcodeData = null, array $options = null)
     {
-        if($package){
-            $this->setPackage($package);
+        if($shipToAddress){
+            $this->setShipToAddress($shipToAddress);
+        }
+        if($barcodeData){
+            $this->setBarcodeData($barcodeData);
         }
         if($options){
             $this->setOptions($options);
@@ -62,11 +71,21 @@ class ManualShippingLabel
     }
 
     /**
-     * Sets the package to make generate the label for.
+     * Sets the label's shipping address.
      */
-    public function setPackage(array $package) : void
+    public function setShipToAddress(array $shipToAddress) : self
     {
-        $this->package = $package;
+        $this->shipToAddress = $shipToAddress;
+        return $this;
+    }
+
+    /**
+     * Sets the label's barcode data.
+     */
+    public function setBarcodeData(string|int $barcodeData) : self
+    {
+        $this->barcodeData = $barcodeData;
+        return $this;
     }
 
     /**
@@ -94,8 +113,12 @@ class ManualShippingLabel
     public function generateLabel(): string
     {
         $image = $this->createBaseImage();
+        
         $this->addAddress($image);
-        $this->addBarcode($image);
+
+        if(!empty($this->barcodeData)){
+            $this->addBarcode($image);
+        }
 
         ob_start();
         imagepng($image);
@@ -138,12 +161,12 @@ class ManualShippingLabel
         $lineSpacing = $this->options['lineSpacing'];
 
         foreach ($this->addressKeys as $key) {
-            $value = $this->package['order']['ship_to'][$key] ?? '';
+            $value = $this->shipToAddress[$key] ?? '';
 
             // Join the first and last names together on a single line.
             if ($key === 'first_name') {
                 $firstName = $value;
-                $lastName = $this->package['order']['ship_to']['last_name'] ?? '';
+                $lastName = $this->shipToAddress['last_name'] ?? '';
                 $value = $firstName . ' ' . $lastName;
             } elseif ($key === 'last_name') {
                 continue;
@@ -164,7 +187,7 @@ class ManualShippingLabel
         $generator = new BarcodeGeneratorPNG();
         
         $barcodeData = $generator->getBarcode(
-            $this->package['id'],
+            $this->barcodeData,
             $generator::TYPE_CODE_128,
             $this->options['barCodeWidthFactor'],
             $this->options['barCodeHeight']

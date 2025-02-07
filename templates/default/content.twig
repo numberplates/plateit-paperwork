@@ -1,5 +1,11 @@
 {# Header #}
-{{ include('/default/header.twig', {'company': package.company, 'ship_to': package.order. ship_to }) }}
+{{
+    include('/default/header.twig', {
+        'company': package.order.company,
+        'customer': package.order.customer,
+        'ship_to': get_correct_ship_to_address(package)
+    })
+}}
 
 <h1>
     Packing Slip

@@ -8,7 +8,7 @@
 ] %}
 <header class="header flex">
     <div class="company-address">
-    <p><strong>{{ company.name }}</strong></p>
+    <p>{{ company.name }}</p>
     {% for field in fields %}
         {% if company[field] %}
             <p>{{ company[field] }}</p>
