@@ -16,13 +16,13 @@ If a company-specific template directory does not exist with a containing `conte
 
 The application natively supports some popular integrated label styles available from [Priory Direct]('https://www.priorydirect.co.uk/integrated-labels').
 
-* Style `DD` (default)
-* Style `B`
-* Style `UP`
+* [`priory-direct-single-up`](https://www.priorydirect.co.uk/integrated-labels/single-integrated-label-style-up-20654.html) (default)
+* [`priory-direct-single-b`](https://www.priorydirect.co.uk/integrated-labels/single-integrated-label-style-b-13695.html)
+* [`priory-direct-double-d`](https://www.priorydirect.co.uk/integrated-labels/double-integrated-label-style-d-14643.html)
 
 This is handled from inside the `IntegratedLabelType` class. More styles can be set using its constructor method (see the class's doc blocks for more information).
 
-A specific label style can be loaded automatically by passing the style type as a query string. For example: `https://paperwork.plateit.co.uk/?type=UP`.
+A specific label style can be loaded automatically by passing the style type as a query string. For example: `https://paperwork.plateit.co.uk/?type=priory-direct-double-d`.
 
 ## Usage
 

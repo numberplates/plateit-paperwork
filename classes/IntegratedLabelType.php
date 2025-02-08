@@ -16,41 +16,41 @@ class IntegratedLabelType
      */
     private $labelTypes = [
         [
-           'type' => 'DD',
-           'orientation' => 'landscape',
-           'labels_per_page' => 2,
-           'page_margin' => '10mm',
-           'label_width' => '95mm',
-           'label_height' => 'auto',
-           'label_margin' => '0',
-        ],
-        [
-            'type' => 'B',
-            'orientation' => 'landscape',
-            'labels_per_page' => 1,
-            'page_margin' => '10mm',
-            'label_width' => '110mm',
-            'label_height' => 'auto',
-            'label_margin' => '0 0 0 90mm',
-         ],
-        [
-            'type' => 'UP',
+            'type' => 'priory-direct-single-up',
             'orientation' => 'landscape',
             'labels_per_page' => 1,
             'page_margin' => '8mm 10mm 10mm 10mm',
             'label_width' => '160mm',
-            'label_height' => 'auto',
-            'label_margin' => '0 0 0 15mm',
-         ],
+            'label_height' => '105mm',
+            'label_margin' => '0 0 5mm 15mm',
+        ],
         [
-            'type' => 'BESPOKE',
+            'type' => 'priory-direct-single-b',
             'orientation' => 'landscape',
             'labels_per_page' => 1,
             'page_margin' => '10mm',
             'label_width' => '110mm',
-            'label_height' => 'auto',
-            'label_margin' => '37mm 0 0 60mm',
-         ],
+            'label_height' => '76mm',
+            'label_margin' => '0 0 0 90mm',
+        ],
+        [
+            'type' => 'priory-direct-double-d',
+            'orientation' => 'landscape',
+            'labels_per_page' => 2,
+            'page_margin' => '10mm',
+            'label_width' => '95mm',
+            'label_height' => '65mm',
+            'label_margin' => '0',
+        ],
+        [
+            'type' => 'bespoke-01',
+            'orientation' => 'landscape',
+            'labels_per_page' => 1,
+            'page_margin' => '10mm',
+            'label_width' => '130mm',
+            'label_height' => '75mm',
+            'label_margin' => '35mm 0 0 65mm',
+        ]
     ];
 
     /**

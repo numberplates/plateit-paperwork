@@ -31,7 +31,7 @@ class ManualShippingLabel
         'hasTransparentBg'  => true,
         'width'             => 1200,
         'height'            => 800,
-        'fontFile'          => 'fonts/OpenSans-Medium.ttf',
+        'fontFile'          => 'assets/fonts/OpenSans-Medium.ttf',
         'fontSize'          => 35,
         'lineSpacing'       => 15,
         'x'                 => 100,

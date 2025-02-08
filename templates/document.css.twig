@@ -73,8 +73,10 @@ ol li, ul li {
 
 /* Integrated labels */
 img.label {
-    width: {{ label_config.label_width }};
+    max-width: {{ label_config.label_width }};
+    max-height: {{ label_config.label_height }};
     margin: {{ label_config.label_margin }};
+    padding: 2mm;
 }
 
 /* Sections */

@@ -8,6 +8,22 @@
     <style>
         {{ include('document.css.twig', {'label_config': label_config}) }}
     </style>
+    <script>
+        /**
+        * Called when a label fails to load. It sets the src to a transparent
+        * placeholder image and hard codes the width and height of the label
+        * boundaries using inline styles to ensure consistency of the page's
+        * spacing.
+        */
+        function handleLabelError(img, widthStr, heightStr) {
+            img.onerror = null;
+            img.style.width = '100%';
+            img.style.height = 'auto';
+            img.style.maxWidth = widthStr; 
+            img.style.maxHeight = heightStr;
+            img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+        }
+    </script>
 </head>
 <body>
     {% for package in packages %}
