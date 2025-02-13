@@ -13,6 +13,8 @@
         <tr>
             <th>Registration</th>
             <th>Type</th>
+            <th>Size (in)</th>
+            <th>Size (mm)</th>
             <th>Colour</th>
             <th>QTY</th>
             {% if has_scrutinise %}
@@ -26,6 +28,8 @@
         <tr>
             <td>{{ plate.registration|upper }}</td>
             <td>{{ plate.type|capitalize }}</td>
+            <td>{{ plate.width|mm_to_inches }}x{{ plate.height|mm_to_inches }}</small></td>
+            <td>{{ plate.width }}x{{ plate.height }}</td>
             <td>{{ plate.colour|capitalize }}</td>
             <td>{{ plate.qty }}</td>
             {% if has_scrutinise %}
