@@ -33,24 +33,24 @@ class Scrutinise
         // Quantity
         'qty'                   => 'qty',
         // Registration
-        'registration colour'   => 'design_metadata.reg.textColour',
-        'registration font'     => 'design_metadata.reg.textFontUrl',
+        'registration colour'   => 'design_object.reg.textColour',
+        'registration font'     => 'design_object.reg.textFontUrl',
         // Border
-        'border colour'         => 'design_metadata.border.colour',
-        'border thickness'      => 'design_metadata.border.thickness',
+        'border colour'         => 'design_object.border.colour',
+        'border thickness'      => 'design_object.border.thickness',
         // Bottom line
-        'bottom line text'      => 'design_metadata.bottomLine.text',
-        'bottom line size'      => 'design_metadata.bottomLine.textHeight',
-        'bottom line font'      => 'design_metadata.bottomLine.textFontUrl',
-        'bottom line colour'    => 'design_metadata.bottomLine.textColour',
+        'bottom line text'      => 'design_object.bottomLine.text',
+        'bottom line size'      => 'design_object.bottomLine.textHeight',
+        'bottom line font'      => 'design_object.bottomLine.textFontUrl',
+        'bottom line colour'    => 'design_object.bottomLine.textColour',
         // Side badge left
-        'left side badge image' => 'design_metadata.sideBadgeLeft.imageUrl',
-        'left side badge text'  => 'design_metadata.sideBadgeLeft.text',
-        'left side badge colour'=> 'design_metadata.sideBadgeLeft.backgroundColour',
+        'left side badge image' => 'design_object.sideBadgeLeft.imageUrl',
+        'left side badge text'  => 'design_object.sideBadgeLeft.text',
+        'left side badge colour'=> 'design_object.sideBadgeLeft.backgroundColour',
         // Side badge right
-        'right side badge image' => 'design_metadata.sideBadgeRight.imageUrl',
-        'right side badge text'  => 'design_metadata.sideBadgeRight.text',
-        'right side badge colour'=> 'design_metadata.sideBadgeRight.backgroundColour'
+        'right side badge image' => 'design_object.sideBadgeRight.imageUrl',
+        'right side badge text'  => 'design_object.sideBadgeRight.text',
+        'right side badge colour'=> 'design_object.sideBadgeRight.backgroundColour'
     ];
 
     /**
