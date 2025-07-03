@@ -12,7 +12,8 @@ class IntegratedLabelType
     /**
      * The available label options. The dimensions need to be formatted as css
      * values using mm as the unit of measurement. These presets can be
-     * overidden using the constructor or the setLabelTypes() method. @var array
+     * overridden using the constructor or the setLabelTypes() method.
+     * @var array
      */
     private $labelTypes = [
         [
@@ -77,7 +78,7 @@ class IntegratedLabelType
      * or if the specified type is not found, the default (first) label type
      * will be returned.
      */
-    public function getLabelType(string $type = null) : array
+    public function getLabelType(string|null $type = null) : array
     {
         if ($type === null) {
             return $this->labelTypes[0];

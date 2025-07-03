@@ -24,7 +24,7 @@ class ManualShippingLabel
     private $barcodeData;
 
     /**
-     * Default label options. Can be overidden using the constructor or the
+     * Default label options. Can be overridden using the constructor or the
      * setOptions() method. @var array
      */
     private $options = [
@@ -57,7 +57,7 @@ class ManualShippingLabel
      * Constructor optionally sets the shipping address, barcode data and label
      * options.
      */
-    public function __construct(array $shipToAddress = null, int|string $barcodeData = null, array $options = null)
+    public function __construct(array|null $shipToAddress = null, int|string|null $barcodeData = null, array|null $options = null)
     {
         if($shipToAddress){
             $this->setShipToAddress($shipToAddress);

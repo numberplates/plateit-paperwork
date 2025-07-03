@@ -57,7 +57,7 @@ class Scrutinise
      * Constructor optionally sets the array of plates and scrutinisation
      * instructions.
      */
-    public function __construct(array $plates = null, array $toScrutinise = null)
+    public function __construct(array|null $plates = null, array|null $toScrutinise = null)
     {
         if($plates){
             $this->setPlates($plates);
@@ -112,7 +112,7 @@ class Scrutinise
                     continue;
                 }
 
-                // If we get this far, pertinient differences have been found.
+                // If we get this far, pertinent differences have been found.
                 // Add a "scrutinise" attribute.
                 $platesModified[$i]['scrutinise'] = $toScrutinise;
 
@@ -135,7 +135,7 @@ class Scrutinise
     }
 
     /**
-     * Finds differening design elements between two plates based on the
+     * Finds differing design elements between two plates based on the
      * scrutinise attributes.
      */
     private function findElementsToScrutinise(array $plate1, array $plate2) : array
