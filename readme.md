@@ -20,7 +20,11 @@ The application natively supports some popular integrated label styles available
 * [`priory-direct-single-b`](https://www.priorydirect.co.uk/integrated-labels/single-integrated-label-style-b-13695.html)
 * [`priory-direct-double-d`](https://www.priorydirect.co.uk/integrated-labels/double-integrated-label-style-d-14643.html)
 
-This is handled from inside the `IntegratedLabelType` class. More styles can be set using its constructor method (see the class's doc blocks for more information).
+Another popular integrated label style that is natively supported (which is not available from Priory Direct) is a simple half-sheet whereby the label is exactly one half of the page.
+
+* [`half-sheet`](https://uk.onlinelabels.com/products/eu30003)
+
+Label styles are handled from inside the `IntegratedLabelType` class. More styles can be set using its constructor method (see the class's doc blocks for more information).
 
 A specific label style can be loaded automatically by passing the style type as a query string. For example: `https://paperwork.plateit.co.uk/?type=priory-direct-double-d`.
 

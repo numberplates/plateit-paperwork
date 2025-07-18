@@ -44,6 +44,15 @@ class IntegratedLabelType
             'label_margin' => '0',
         ],
         [
+            'type' => 'half-sheet',
+            'orientation' => 'portrait',
+            'labels_per_page' => 2,
+            'page_margin' => '10mm',
+            'label_width' => '190mm',
+            'label_height' => '128.5mm',
+            'label_margin' => '0 0 10mm 0',
+        ],
+        [
             'type' => 'bespoke-01',
             'orientation' => 'landscape',
             'labels_per_page' => 1,
