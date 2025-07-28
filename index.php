@@ -3,7 +3,9 @@
 require_once 'vendor/autoload.php';
 
 // Set default values for environment variables if they are not already set.
-putenv('PLATEIT_BASE_URL=' . ($_ENV['PLATEIT_BASE_URL'] ?? 'https://data.plateit.co.uk/v3'));
+if(!$_ENV['PLATEIT_BASE_URL']){
+   $_ENV['PLATEIT_BASE_URL'] = 'https://data.plateit.co.uk/v3';
+}
 
 // Convert the incoming JSON to a PHP array.
 $packages = json_decode(file_get_contents('php://input'), true);
