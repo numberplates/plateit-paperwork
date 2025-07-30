@@ -30,13 +30,9 @@ A specific label style can be loaded automatically by passing the style type as 
 
 ## Usage
 
-The instructions below assume you are using Docker or Podman. If not, when moved to an Apache or NGINX hosting environment, it should *just work* (providing the dependencies have been installed using Composer).
-
 ### For Production:
 
-`podman compose up -d`
-
-Then access the app at `http://your.server:8080`
+When moved to an Apache or NGINX hosting environment, it should *just work* (providing the dependencies have been installed using Composer).
 
 ### For Development:
 
@@ -44,13 +40,8 @@ First, locally run:
 
 `composer install`
 
-And then either run:
+And then run:
 
-* `php -S localhost:8080`, or
-* `podman compose -f docker-compose.yaml -f docker-compose.dev.yaml up -d`
+`php -S localhost:8080`
 
-The first command will run a local PHP development server (quickest method).
-
-The second command will build and run a Docker/Podman container with an editable volume.
-
-Both commands will make the application accessible at `http://localhost:8080`.
+This will make the application accessible at `http://localhost:8080`.

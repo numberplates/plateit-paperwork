@@ -1,9 +1,0 @@
-# This file is intended to overlay the docker-compose.yaml for development.
-
-version: '3.8'
-
-services:
-  plateit-paperwork:
-    volumes:
-      - .:/var/www/html
-    restart: 'no'
