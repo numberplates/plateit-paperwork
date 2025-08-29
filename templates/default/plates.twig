@@ -1,6 +1,7 @@
 {% set plates = get_scrutinised_plates(plates) %}
 {% set has_scrutinise = plates|filter(plate => plate.scrutinise is not null)|length > 0 %}
 {% set has_instructions = plates|filter(plate => plate.custom_instructions is not null)|length > 0 %}
+{% set has_shape = plates|filter(plate => plate.shape is not null)|length > 0 %}
 
 <section class="items plates">
     <h2>
@@ -13,6 +14,9 @@
         <tr>
             <th>Registration</th>
             <th>Type</th>
+            {% if has_shape %}
+                <th>Shape</th>
+            {% endif %}
             <th>Size (in)</th>
             <th>Size (mm)</th>
             <th>Colour</th>
@@ -28,7 +32,10 @@
         <tr>
             <td>{{ plate.registration|upper }}</td>
             <td>{{ plate.type|capitalize }}</td>
-            <td>{{ plate.width|mm_to_inches }}x{{ plate.height|mm_to_inches }}</small></td>
+            {% if has_shape %}
+                <td>{{ plate.shape }}</td>
+            {% endif %}
+            <td>{{ plate.width|mm_to_inches }}x{{ plate.height|mm_to_inches }}</td>
             <td>{{ plate.width }}x{{ plate.height }}</td>
             <td>{{ plate.colour|capitalize }}</td>
             <td>{{ plate.qty }}</td>
