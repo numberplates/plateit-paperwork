@@ -18,6 +18,7 @@ The application natively supports some popular integrated label styles available
 
 * [`priory-direct-single-up`](https://www.priorydirect.co.uk/integrated-labels/single-integrated-label-style-up-20654.html) (default)
 * [`priory-direct-single-b`](https://www.priorydirect.co.uk/integrated-labels/single-integrated-label-style-b-13695.html)
+* [`priory-direct-single-r`](https://www.priorydirect.co.uk/integrated-labels/single-integrated-labels-style-r-16615.html)
 * [`priory-direct-double-d`](https://www.priorydirect.co.uk/integrated-labels/double-integrated-label-style-d-14643.html)
 
 Another popular integrated label style that is natively supported (which is not available from Priory Direct) is a simple half-sheet whereby the label is exactly one half of the page.

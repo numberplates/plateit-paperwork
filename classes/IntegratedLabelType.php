@@ -35,6 +35,15 @@ class IntegratedLabelType
             'label_margin' => '0 0 0 90mm',
         ],
         [
+            'type' => 'priory-direct-single-r',
+            'orientation' => 'landscape',
+            'labels_per_page' => 1,
+            'page_margin' => '10mm',
+            'label_width' => '150mm',
+            'label_height' => '100mm',
+            'label_margin' => '0 0 0 40mm',
+        ],
+        [
             'type' => 'priory-direct-double-d',
             'orientation' => 'landscape',
             'labels_per_page' => 2,
