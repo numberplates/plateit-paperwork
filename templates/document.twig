@@ -27,6 +27,7 @@
 </head>
 <body>
     {% for package in packages %}
+        {% set sequence_number = batch_code ~ '_' ~ loop.index %}
         <article>
 
             {# Labels #}
@@ -35,9 +36,9 @@
             {# Container #}
             {% set template_path = 'company-' ~ package.order.company_id ~ '/content.twig' %}
             {% if template_exists(template_path) %}
-                {{ include(template_path, package) }}
+                {{ include(template_path, package, sequence_number) }}
             {% else %}
-                {{ include('/default/content.twig', package) }}
+                {{ include('/default/content.twig', package, sequence_number) }}
             {% endif %}
 
         </article>

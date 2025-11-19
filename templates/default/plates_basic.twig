@@ -1,0 +1,56 @@
+{# Use this template if preview images are not required #}
+{% set plates = get_scrutinised_plates(plates) %}
+{% set has_scrutinise = plates|filter(plate => plate.scrutinise is not null)|length > 0 %}
+{% set has_instructions = plates|filter(plate => plate.custom_instructions is not null)|length > 0 %}
+{% set has_shape = plates|filter(plate => plate.shape is not null)|length > 0 %}
+
+<section class="items plates">
+    <h2>
+        Plates
+        {% if has_scrutinise %}
+            <strong class="important">- DIFFERENCES DETECTED</strong>
+        {% endif %}
+    </h2>
+    <table>
+        <tr>
+            <th>Registration</th>
+            <th>Type</th>
+            {% if has_shape %}
+                <th>Shape</th>
+            {% endif %}
+            <th>Size (in)</th>
+            <th>Size (mm)</th>
+            <th>Colour</th>
+            <th>QTY</th>
+            {% if has_scrutinise %}
+                <th class="important">Key Differences*</th>
+            {% endif %}
+            {% if has_instructions %}
+                <th>Instructions</th>
+            {% endif %}
+        </tr>
+        {% for plate in plates %}
+        <tr>
+            <td>{{ plate.registration|upper }}</td>
+            <td>{{ plate.type|capitalize }}</td>
+            {% if has_shape %}
+                <td>{{ plate.shape }}</td>
+            {% endif %}
+            <td>{{ plate.width|mm_to_inches }}x{{ plate.height|mm_to_inches }}</td>
+            <td>{{ plate.width }}x{{ plate.height }}</td>
+            <td>{{ plate.colour|capitalize }}</td>
+            <td class="qty {{ plate.qty > 1 ? 'gt-1' : '' }}">{{ plate.qty }}</td>
+            {% if has_scrutinise %}
+                <td>{{ render_array_list(plate.scrutinise)|raw }}</td>
+            {% endif %}
+            {% if has_instructions %}
+                 <td>{{ plate.custom_instructions }}</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% if has_scrutinise %}
+        <p class="asterisk">* Staff notes to assist with manufacturing.</p>
+    {% endif %}
+</section>

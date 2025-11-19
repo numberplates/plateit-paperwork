@@ -1,6 +1,6 @@
 /* Reset */
 :root, html, body {
-  background: transparent;
+    background: transparent;
 }
 
 * {
@@ -150,4 +150,22 @@ cite {
 /* Misc */
 .important {
     color: red;
+}
+
+td.qty {
+    text-align: center;
+    font-weight: bold;
+}
+
+td.qty.gt-1 {
+    color: red;
+}
+
+/* Differentiate certain plate types */
+.type-4d-laser-cut td:first-child {
+    color: red;
+}
+
+.type-3d-gelled td:first-child {
+    color: blue;
 }

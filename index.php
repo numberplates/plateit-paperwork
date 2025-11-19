@@ -67,6 +67,7 @@ $twig->addFunction(new \Twig\TwigFunction('get_fallback_label_image', function (
 // Render the html for printing.
 echo $twig->render('document.twig', [
    'label_config' => $integratedLabelType->getLabelType($_GET['type'] ?? null),
+   'batch_code' => generateRandomCode(3),
    'packages' => $packages,
    'env' => $_ENV
 ]);

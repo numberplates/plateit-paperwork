@@ -95,3 +95,16 @@ function getCorrectShipToAddress(array $packageWithOrder) : array
 {
     return $packageWithOrder['ship_to_override'] ?? $packageWithOrder['order']['ship_to'] ?? [];
 }
+
+/**
+ * Generates a random code with X number of characters.
+ */
+function generateRandomCode($length = 3) : string
+{
+    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    $code = '';
+    for ($i = 0; $i < $length; $i++) {
+        $code .= $characters[rand(0, strlen($characters) - 1)];
+    }
+    return $code;
+}

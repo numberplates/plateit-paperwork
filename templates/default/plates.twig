@@ -12,15 +12,9 @@
     </h2>
     <table>
         <tr>
-            <th>Registration</th>
-            <th>Type</th>
-            {% if has_shape %}
-                <th>Shape</th>
-            {% endif %}
-            <th>Size (in)</th>
-            <th>Size (mm)</th>
-            <th>Colour</th>
+            <th>Plate</th>
             <th>QTY</th>
+            <th>Preview</th>
             {% if has_scrutinise %}
                 <th class="important">Key Differences*</th>
             {% endif %}
@@ -29,16 +23,20 @@
             {% endif %}
         </tr>
         {% for plate in plates %}
-        <tr>
-            <td>{{ plate.registration|upper }}</td>
-            <td>{{ plate.type|capitalize }}</td>
-            {% if has_shape %}
-                <td>{{ plate.shape }}</td>
-            {% endif %}
-            <td>{{ plate.width|mm_to_inches }}x{{ plate.height|mm_to_inches }}</td>
-            <td>{{ plate.width }}x{{ plate.height }}</td>
-            <td>{{ plate.colour|capitalize }}</td>
-            <td>{{ plate.qty }}</td>
+        <tr class="type-{{ plate.type|lower|replace({' ': '-'}) }}">
+            <td>
+                <p><strong>{{ plate.registration|upper }}</strong></p>
+                {% if plate.shape %}
+                    <p>{{ plate.shape|capitalize }}</p>
+                {% endif %}
+                <p>{{ plate.type|capitalize }} {{ plate.width }}x{{ plate.height }}mm ({{ plate.width|mm_to_inches }}x{{ plate.height|mm_to_inches }}in) <strong>{{ plate.colour|capitalize }}</strong></p>
+            </td>
+            <td class="qty {{ plate.qty > 1 ? 'gt-1' : '' }}">
+                {{ plate.qty }}
+            </td>
+            <td>
+                <img alt="Preview {{ plate.registration|upper }}" style="width: 30mm" src="{{ env.PLATEIT_BASE_URL }}{{ plate.design_preview }}">
+            </td>
             {% if has_scrutinise %}
                 <td>{{ render_array_list(plate.scrutinise)|raw }}</td>
             {% endif %}

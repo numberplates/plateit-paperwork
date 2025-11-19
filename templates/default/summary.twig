@@ -11,10 +11,12 @@
             <dd>{{ package.order.created_at|date('Y-m-d') }}</dd>
             <dt>Shipping</dt>
             <dd>{{ package.shipping.name|strip_slashes }}</dd>
+            <dt>Sequence</dt>
+            <dd>{{ sequence_number }}</dd>
         </dl>
     </div>
     
-    {% if packages_count > 1 %}
+    {% if packages_count > 1 and package is defined and not package.is_replacement %}
     <div class="summary-notice">
         <p><strong>Please note:</strong> This is 1 package of {{ packages_count }}. The remaining packages are being sent separately.</p>
     </div>

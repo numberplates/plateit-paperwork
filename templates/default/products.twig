@@ -10,7 +10,7 @@
         <tr>
             <td>{{ product.name }}</td>
             <td>{{ product.sku|upper }}</td>
-            <td>{{ product.qty }}</td>
+            <td class="qty {{ product.qty > 1 ? 'gt-1' : '' }}">{{ product.qty }}</td>
         </tr>
         {% endfor %}
     </table>
