@@ -124,7 +124,6 @@ class ManualShippingLabel
         imagepng($image);
         $imageData = ob_get_contents();
         ob_end_clean();
-        imagedestroy($image);
         
         return 'data:image/png;base64,' . base64_encode($imageData);
     }
@@ -205,8 +204,5 @@ class ManualShippingLabel
 
         // Merge the barcode image onto the label image.
         imagecopyresampled($image, $barcodeImage, $barcodeX, $barcodeY, 0, 0, $barcodeWidth, $barcodeHeight, $barcodeWidth, $barcodeHeight);
-        
-        // Clean up.
-        imagedestroy($barcodeImage);
     }
 }

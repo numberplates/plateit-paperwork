@@ -1,6 +1,15 @@
 <?php
 
 /**
+ * Resolves the Plateit API base URL.
+ */
+function resolvePlateitBaseUrl(): string
+{
+    $baseUrl = $_ENV['PLATEIT_BASE_URL'] ?? $_SERVER['HTTP_X_PLATEIT_BASE_URL'] ?? 'https://api.plateit.co.uk';
+    return rtrim($baseUrl, '/');
+}
+
+/**
  * Terminates the script with a custom error message and HTTP status code.
  */
 function kill(string $message, int $statusCode = 400) : void

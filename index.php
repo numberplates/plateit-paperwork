@@ -2,11 +2,6 @@
 // Import dependencies.
 require_once 'vendor/autoload.php';
 
-// Set default values for environment variables if they are not already set.
-if(!isset($_ENV['PLATEIT_BASE_URL'])){
-   $_ENV['PLATEIT_BASE_URL'] = 'https://api.plateit.co.uk/v3';
-}
-
 // Convert the incoming JSON to a PHP array.
 $packages = json_decode(file_get_contents('php://input'), true);
 
@@ -60,14 +55,14 @@ $twig->addFunction(new \Twig\TwigFunction('get_fallback_label_image', function (
    $shipToAddress = getCorrectShipToAddress($package);
    return $manualLabel
       ->setShipToAddress($shipToAddress)
-      ->setBarcodeData($package['id'])
+      ->setBarcodeData($package['id'] ?? '')
       ->generateLabel();
 }));
 
 // Render the html for printing.
 echo $twig->render('document.twig', [
-   'label_config' => $integratedLabelType->getLabelType($_GET['type'] ?? null),
-   'batch_code' => generateRandomCode(3),
-   'packages' => $packages,
-   'env' => $_ENV
+    'label_config' => $integratedLabelType->getLabelType($_GET['type'] ?? null),
+    'batch_code' => generateRandomCode(3),
+    'packages' => $packages,
+    'plateit_base_url' => resolvePlateitBaseUrl(),
 ]);

@@ -35,7 +35,7 @@
                 {{ plate.qty }}
             </td>
             <td>
-                <img alt="Preview {{ plate.registration|upper }}" style="width: 30mm" src="{{ env.PLATEIT_BASE_URL }}{{ plate.design_preview }}">
+                <img alt="Preview {{ plate.registration|upper }}" style="width: 30mm" src="{{ plateit_base_url }}{{ plate.design_preview }}">
             </td>
             {% if has_scrutinise %}
                 <td>{{ render_array_list(plate.scrutinise)|raw }}</td>

@@ -6,7 +6,7 @@
 {% for batch in label_filepaths_batched %}
     <section class="labels flex">
         {% for label_filepath in batch %}
-            {% set image_src = label_filepath == 'manual_label' ? get_fallback_label_image(package) : env.PLATEIT_BASE_URL ~ label_filepath|strip_slashes ~ '?rotate=' ~ rotate_degrees %}
+            {% set image_src = label_filepath == 'manual_label' ? get_fallback_label_image(package) : plateit_base_url ~ label_filepath|strip_slashes ~ '?rotate=' ~ rotate_degrees %}
             <img class="label" alt="label" src="{{ image_src }}" onerror="handleLabelError(this, '{{label_config.label_width}}', '{{label_config.label_height}}')">
         {% endfor %}
     </section>
