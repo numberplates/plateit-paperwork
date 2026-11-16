@@ -64,9 +64,34 @@ Another popular integrated label style that is natively supported (which is not 
 
 * [`half-sheet`](https://uk.onlinelabels.com/products/eu30003)
 
-Label styles are handled from inside the `IntegratedLabelType` class. More styles can be set using its constructor method (see the class's doc blocks for more information).
+Bundled presets and the installation default live in `src/config/labels.php`. Create optional `overrides/shared/labels.php` to select a different default without changing application code:
 
-A specific label style can be loaded automatically by passing the style type as a query string. For example: `https://paperwork.plateit.co.uk/?type=priory-direct-double-d`.
+```php
+<?php
+return ['default_type' => 'priory-direct-double-d'];
+```
+
+Omitted settings inherit the bundled configuration. To use custom dimensions, return a `types` list as well:
+
+```php
+<?php
+return [
+    'default_type' => 'my-stock',
+    'types' => [[
+        'type' => 'my-stock',
+        'orientation' => 'landscape',
+        'labels_per_page' => 1,
+        'page_margin' => '10mm',
+        'label_width' => '130mm',
+        'label_height' => '75mm',
+        'label_margin' => '35mm 0 0 65mm',
+    ]],
+];
+```
+
+A supplied `types` list replaces all presets; it must be non-empty and contain the configured default type. Dimensions are CSS values using millimetres. These example dimensions need checking against your actual stock. Labels are installation-wide, with no company-specific lookup, because the selected paper applies to the whole batch. Back up the ignored override file separately.
+
+A specific configured label style can be selected by passing its type as a query string. Missing or unknown types use the installation default. For example: `https://paperwork.plateit.co.uk/?type=priory-direct-double-d`.
 
 ## Company-Specific Scrutinisation
 

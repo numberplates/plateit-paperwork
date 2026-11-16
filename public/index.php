@@ -12,7 +12,7 @@ if(empty($packages)) {
 }
 
 $templates = new \Paperwork\Templates($root);
-$integratedLabelType = new \Paperwork\IntegratedLabelType();
+$integratedLabelType = \Paperwork\IntegratedLabelType::fromRoot($root);
 
 // Render the html for printing.
 echo $templates->render([

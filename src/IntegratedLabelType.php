@@ -10,76 +10,26 @@ namespace Paperwork;
 class IntegratedLabelType
 {
     /**
-     * The available label options. The dimensions need to be formatted as css
-     * values using mm as the unit of measurement. These presets can be
-     * overridden using the constructor or the setLabelTypes() method.
-     * @var array
+     * Available presets, in fallback order.
      */
-    private $labelTypes = [
-        [
-            'type' => 'priory-direct-single-up',
-            'orientation' => 'landscape',
-            'labels_per_page' => 1,
-            'page_margin' => '8mm 10mm 10mm 10mm',
-            'label_width' => '160mm',
-            'label_height' => '105mm',
-            'label_margin' => '0 0 5mm 15mm',
-        ],
-        [
-            'type' => 'priory-direct-single-b',
-            'orientation' => 'landscape',
-            'labels_per_page' => 1,
-            'page_margin' => '10mm',
-            'label_width' => '110mm',
-            'label_height' => '76mm',
-            'label_margin' => '0 0 0 90mm',
-        ],
-        [
-            'type' => 'priory-direct-single-r',
-            'orientation' => 'landscape',
-            'labels_per_page' => 1,
-            'page_margin' => '10mm',
-            'label_width' => '150mm',
-            'label_height' => '100mm',
-            'label_margin' => '0 0 0 40mm',
-        ],
-        [
-            'type' => 'priory-direct-double-d',
-            'orientation' => 'landscape',
-            'labels_per_page' => 2,
-            'page_margin' => '10mm',
-            'label_width' => '95mm',
-            'label_height' => '65mm',
-            'label_margin' => '0',
-        ],
-        [
-            'type' => 'half-sheet',
-            'orientation' => 'portrait',
-            'labels_per_page' => 2,
-            'page_margin' => '10mm',
-            'label_width' => '190mm',
-            'label_height' => '128.5mm',
-            'label_margin' => '0 0 10mm 0',
-        ],
-        [
-            'type' => 'bespoke-01',
-            'orientation' => 'landscape',
-            'labels_per_page' => 1,
-            'page_margin' => '10mm',
-            'label_width' => '130mm',
-            'label_height' => '75mm',
-            'label_margin' => '35mm 0 0 65mm',
-        ]
-    ];
+    private array $labelTypes;
+
+    /**
+     * The default label type key to use.
+     */
+    private string $defaultType;
 
     /**
      * Constructor optionally sets the label types if different from the
      * presets.
      */
-    public function __construct(array|null $labelTypes = null)
+    public function __construct(?array $labelTypes = null, ?string $defaultType = null)
     {
-        if(isset($labelTypes)){
-            $this->setLabelTypes($labelTypes);
+        $defaults = require __DIR__ . '/config/labels.php';
+        $this->defaultType = $defaultType ?? ($labelTypes === null ? $defaults['default_type'] : ($labelTypes[0]['type'] ?? ''));
+        $this->setLabelTypes($labelTypes ?? $defaults['types']);
+        if (!$this->findLabelType($this->defaultType)) {
+            throw new \InvalidArgumentException('Default label type must exist in the configured presets');
         }
     }
 
@@ -88,26 +38,67 @@ class IntegratedLabelType
      */
     public function setLabelTypes(array $labelTypes) : void
     {
+        if ($labelTypes === [] || !array_is_list($labelTypes)) {
+            throw new \InvalidArgumentException('Label types must be a non-empty list');
+        }
+        $seen = [];
+        foreach ($labelTypes as $label) {
+            if (!is_array($label)) {
+                throw new \InvalidArgumentException('Each label preset must be an array');
+            }
+            foreach (['type', 'page_margin', 'label_width', 'label_height', 'label_margin'] as $field) {
+                if (!isset($label[$field]) || !is_string($label[$field]) || trim($label[$field]) === '') {
+                    throw new \InvalidArgumentException('Label presets require a non-empty ' . $field);
+                }
+            }
+            $key = strtolower($label['type']);
+            if (isset($seen[$key])) {
+                throw new \InvalidArgumentException('Duplicate label type: ' . $label['type']);
+            }
+            $seen[$key] = true;
+            if (isset($label['orientation']) && !in_array($label['orientation'], ['portrait', 'landscape'], true)) {
+                throw new \InvalidArgumentException('Label orientation must be portrait or landscape');
+            }
+            if (isset($label['labels_per_page']) && (!is_int($label['labels_per_page']) || $label['labels_per_page'] < 1)) {
+                throw new \InvalidArgumentException('Labels per page must be a positive integer');
+            }
+        }
         $this->labelTypes = $labelTypes;
     }
 
-    /**
-     * Returns the label type data for the given type. If no type is specified,
-     * or if the specified type is not found, the default (first) label type
-     * will be returned.
-     */
+    /** Returns the requested preset, or the configured default if unknown. */
     public function getLabelType(string|null $type = null) : array
     {
-        if ($type === null) {
-            return $this->labelTypes[0];
-        }
+        return ($type !== null ? $this->findLabelType($type) : null)
+            ?? $this->findLabelType($this->defaultType)
+            ?? $this->labelTypes[0];
+    }
 
+    private function findLabelType(string $type): ?array
+    {
         foreach ($this->labelTypes as $label) {
-            if (strtoupper($label['type']) === strtoupper($type)) {
+            if (strcasecmp($label['type'], $type) === 0) {
                 return $label;
             }
         }
+        return null;
+    }
 
-        return $this->labelTypes[0];
+    /** Loads optional installation settings without modifying bundled defaults. */
+    public static function fromRoot(string $root): self
+    {
+        $config = require $root . '/src/config/labels.php';
+        $path = $root . '/overrides/shared/labels.php';
+        if (is_file($path)) {
+            $overrides = (static function (string $file) { return require $file; })($path);
+            if (!is_array($overrides)) {
+                throw new \InvalidArgumentException('Label configuration must return an array');
+            }
+            $config = array_replace($config, $overrides);
+        }
+        if (!is_array($config['types'] ?? null) || !is_string($config['default_type'] ?? null)) {
+            throw new \InvalidArgumentException('Label configuration requires types and default_type');
+        }
+        return new self($config['types'], $config['default_type']);
     }
 }
