@@ -4,13 +4,33 @@ A simple PHP application that renders paperwork html for printing when a JSON pa
 
 Note: Google Chrome (or Chromium) has been found to render the page styling more accurately than other browsers tested.
 
+## Directory Structure
+
+- `public/index.php`: web entry point; set the web server document root to `public/`.
+- `src/`: PHP classes, `utils/`, bundled `templates/` and private `assets/` (including label fonts).
+- `overrides/`: optional, Git-ignored shared and company template customisations.
+- `vendor/`: Composer dependencies.
+
+After updating an existing installation, run `composer install` to refresh the autoloader and update the web server document root to `public/`.
+
 ## Template Files and Directory Structure
 
-The main HTML document is generated from the `/templates/document.twig` file, which serves as the entry point.
+The main HTML document is generated from `src/templates/document.twig`. Local customisations live in an optional, Git-ignored `overrides/` directory, following the same conventions as the order portal and transactional emails apps.
 
-This outer document template will attempt to import a company-specific content template for each package, located at `/templates/company-{id}/content.twig` (the directory's `{id}` placeholder is replaced with the actual company ID).
+Template lookup order (first match wins):
 
-If a company-specific template directory does not exist with a containing `content.twig` template, the application will fall back to the default packing slip template found at `/templates/default/content.twig`.
+1. `overrides/companies/<id>/`
+2. `overrides/shared/`
+3. `src/templates/`
+4. `src/templates/default/`
+
+Copy only files that differ. For example, copy `src/templates/default/header.twig` to `overrides/companies/123/header.twig` to change company 123's header, or to `overrides/shared/header.twig` to change it for all companies. Nested includes use the same lookup order, so overriding a header does not require copying `content.twig`. Use bare template names such as `header.twig` in overrides to retain fallback behaviour.
+
+Each package resolves `package.twig`, `labels.twig`, `content.twig` and their partials using its own `package.order.company_id`, including in mixed-company batches. The outer `document.twig` and `document.css.twig` are shared across the batch and can be overridden in `overrides/shared/`. Copy `document.css.twig` there to customise the print stylesheet; it remains a Twig template with access to `label_config`.
+
+Existing custom templates in the old `templates/company-<id>/` should be moved to `overrides/companies/<id>/`. Replace includes such as `/default/header.twig` with `header.twig` to allow individual partial overrides.
+
+Create override directories as needed and back them up separately. They are not included in fresh checkouts; without them the application renders the bundled defaults.
 
 ## Default Integrated Label Styles
 
@@ -33,7 +53,7 @@ A specific label style can be loaded automatically by passing the style type as 
 
 ### For Production:
 
-When moved to an Apache or NGINX hosting environment, it should *just work* (providing the dependencies have been installed using Composer).
+Run `composer install` from the application root and configure Apache or NGINX to serve `public/` as the document root. Application code, templates, fonts, dependencies and local overrides live outside the document root.
 
 ### For Development:
 
@@ -43,6 +63,6 @@ First, locally run:
 
 And then run:
 
-`php -S localhost:8080`
+`php -S localhost:8080 -t public`
 
 This will make the application accessible at `http://localhost:8080`.

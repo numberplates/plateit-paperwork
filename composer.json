@@ -1,5 +1,5 @@
 {
-    "name": "plateit/paperwork",
+    "name": "numberplates/plateit-paperwork",
     "description": "Render html paperwork for printing Plateit packages.",
     "require": {
         "twig/twig": "^3.10",
@@ -7,10 +7,10 @@
     },
     "autoload": {
         "files": [
-            "./utils/functions.php"
+            "./src/utils/functions.php"
         ],
         "psr-4": {
-            "Paperwork\\": "./classes/"
+            "Paperwork\\": "./src/"
         }
     }
 }

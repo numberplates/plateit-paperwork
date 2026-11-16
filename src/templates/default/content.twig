@@ -1,6 +1,6 @@
 {# Header #}
 {{
-    include('/default/header.twig', {
+    include('header.twig', {
         'company': package.order.company,
         'customer': package.order.customer,
         'ship_to': get_correct_ship_to_address(package)
@@ -15,19 +15,19 @@
 </h1>
 
 {# Summary #}
-{{ include('/default/summary.twig', { 'package': package }) }}
+{{ include('summary.twig', { 'package': package }) }}
 
 {# Plates #}
 {% if package.plates|length %}
-    {{ include('/default/plates.twig', { 'plates': package.plates }) }}
+    {{ include('plates.twig', { 'plates': package.plates }) }}
 {% endif %}
 
 {# Extras #}
 {% if package.products|length %}
-    {{ include('/default/products.twig', { 'products': package.products }) }}
+    {{ include('products.twig', { 'products': package.products }) }}
 {% endif %}
 
 {# Notes #}
 {% if package.notes|filter(note => not note.is_private)|length %}
-    {{ include('/default/notes.twig', { 'notes': package.notes }) }}
+    {{ include('notes.twig', { 'notes': package.notes }) }}
 {% endif %}

@@ -30,16 +30,7 @@
         {% set sequence_number = batch_code ~ '_' ~ loop.index %}
         <article>
 
-            {# Labels #}
-            {{ include('labels.twig', {'package': package, 'label_config': label_config}) }}
-
-            {# Container #}
-            {% set template_path = 'company-' ~ package.order.company_id ~ '/content.twig' %}
-            {% if template_exists(template_path) %}
-                {{ include(template_path, package, sequence_number) }}
-            {% else %}
-                {{ include('/default/content.twig', package, sequence_number) }}
-            {% endif %}
+            {{ render_package() }}
 
         </article>
 
