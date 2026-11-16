@@ -31,6 +31,32 @@ final class Templates
         return $this->environment()->render('@outer/document.twig', $context);
     }
 
+    /** First configured mapping wins; an empty mapping disables comparison. */
+    private function scrutiniseFields(?string $companyId): array
+    {
+        $paths = [
+            $companyId !== null ? $this->root . '/overrides/companies/' . $companyId . '/scrutinise.php' : '',
+            $this->root . '/overrides/shared/scrutinise.php',
+            $this->root . '/src/config/scrutinise.php',
+        ];
+        foreach ($paths as $path) {
+            if (!is_file($path)) {
+                continue;
+            }
+            $fields = (static function (string $file) { return require $file; })($path);
+            if (!is_array($fields)) {
+                throw new \RuntimeException('Scrutinise configuration must return an array: ' . $path);
+            }
+            foreach ($fields as $label => $field) {
+                if (!is_string($label) || trim($label) === '' || !is_string($field) || trim($field) === '') {
+                    throw new \RuntimeException('Scrutinise configuration must map non-empty labels to field paths: ' . $path);
+                }
+            }
+            return $fields;
+        }
+        throw new \RuntimeException('Missing bundled scrutinise configuration');
+    }
+
     private function environment(?string $companyId = null): \Twig\Environment
     {
         // Company IDs must be a single numeric directory name.
@@ -52,8 +78,7 @@ final class Templates
         $loader->addPath($this->root . '/src/templates/inner', 'inner');
         $twig = new \Twig\Environment($loader);
 
-        // Initialise the Scrutinise class.
-        $scrutinise = new \Paperwork\Scrutinise();
+        $scrutiniseFields = $this->scrutiniseFields($companyId);
 
         // Initialise the ManualShippingLabel class.
         $manualLabel = new \Paperwork\ManualShippingLabel();
@@ -79,10 +104,8 @@ final class Templates
         }));
 
         // Register custom Twig function to find subtle plate design differences.
-        $twig->addFunction(new \Twig\TwigFunction('get_scrutinised_plates', function ($plates, $toScrutinise = null) use ($scrutinise) {
-           $scrutinise->setPlates($plates);
-           if($toScrutinise){ $scrutinise->setScrutinise($toScrutinise); }
-           return $scrutinise->getScrutinisedPlates();
+        $twig->addFunction(new \Twig\TwigFunction('get_scrutinised_plates', function ($plates, $toScrutinise = null) use ($scrutiniseFields) {
+           return (new Scrutinise($plates, $toScrutinise ?? $scrutiniseFields))->getScrutinisedPlates();
         }));
 
         // Register custom Twig function to generate a manual-post shipping label.

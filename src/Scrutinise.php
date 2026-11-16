@@ -18,53 +18,20 @@ namespace Paperwork;
  */
 class Scrutinise
 {
-    /**
-     * @var array
-     */
-    private $plates = [];
+    private array $plates = [];
 
-    /**
-     * The default plate attributes to scrutinise. Can be overridden in the
-     * constructor or by using the setScrutinise() method. This is not an
-     * exhaustive list but should cover 99% of use cases.
-     * @var array
-     */
-    private $toScrutinise = [
-        // Quantity
-        'qty'                   => 'qty',
-        // Registration
-        'registration colour'   => 'design_object.reg.textColour',
-        'registration font'     => 'design_object.reg.textFontUrl',
-        // Border
-        'border colour'         => 'design_object.border.colour',
-        'border thickness'      => 'design_object.border.thickness',
-        // Bottom line
-        'bottom line text'      => 'design_object.bottomLine.text',
-        'bottom line size'      => 'design_object.bottomLine.textHeight',
-        'bottom line font'      => 'design_object.bottomLine.textFontUrl',
-        'bottom line colour'    => 'design_object.bottomLine.textColour',
-        // Side badge left
-        'left side badge image' => 'design_object.sideBadgeLeft.imageUrl',
-        'left side badge text'  => 'design_object.sideBadgeLeft.text',
-        'left side badge colour'=> 'design_object.sideBadgeLeft.backgroundColour',
-        // Side badge right
-        'right side badge image' => 'design_object.sideBadgeRight.imageUrl',
-        'right side badge text'  => 'design_object.sideBadgeRight.text',
-        'right side badge colour'=> 'design_object.sideBadgeRight.backgroundColour'
-    ];
+    private array $toScrutinise = [];
 
     /**
      * Constructor optionally sets the array of plates and scrutinisation
      * instructions.
      */
-    public function __construct(array|null $plates = null, array|null $toScrutinise = null)
+    public function __construct(?array $plates = null, ?array $toScrutinise = null)
     {
         if($plates){
             $this->setPlates($plates);
         }
-        if ($toScrutinise) {
-            $this->setScrutinise($toScrutinise);
-        }
+        $this->setScrutinise($toScrutinise ?? require __DIR__ . '/config/scrutinise.php');
     }
 
     /**

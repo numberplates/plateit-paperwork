@@ -68,6 +68,30 @@ Label styles are handled from inside the `IntegratedLabelType` class. More style
 
 A specific label style can be loaded automatically by passing the style type as a query string. For example: `https://paperwork.plateit.co.uk/?type=priory-direct-double-d`.
 
+## Company-Specific Scrutinisation
+
+Scrutinisation compares plates with the same registration and dimensions, flagging differences in configured fields. Different companies can map their own design object structure without replacing a template.
+
+The first existing configuration wins (mappings replace the complete list, rather than merge):
+
+1. `overrides/companies/<id>/scrutinise.php`
+2. `overrides/shared/scrutinise.php`
+3. `src/config/scrutinise.php` (bundled default mapping).
+
+For example, create `overrides/companies/123/scrutinise.php`:
+
+```php
+<?php
+return [
+    'border enabled' => 'design_object.decoration.hasBorder',
+    'border colour' => 'design_object.decoration.borderColour',
+];
+```
+
+Keys are staff-facing labels; values are dot-separated paths into each plate. Include the enabled/visible field when a design retains settings for disabled elements. Missing paths resolve to `null`; confirm paths against a real payload. Return `[]` to disable comparisons. These PHP files are trusted local configuration and are Git-ignored with the rest of `overrides/`.
+
+Existing `get_scrutinised_plates(plates)` calls automatically use the company's configuration. An explicit mapping passed as the second Twig argument takes precedence for that call, including `[]` to disable comparisons. Every call uses a fresh instance so settings do not carry over between calls or companies.
+
 ## Usage
 
 ### For Production:
