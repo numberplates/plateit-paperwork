@@ -15,22 +15,41 @@ After updating an existing installation, run `composer install` to refresh the a
 
 ## Template Files and Directory Structure
 
-The main HTML document is generated from `src/templates/document.twig`. Local customisations live in an optional, Git-ignored `overrides/` directory, following the same conventions as the order portal and transactional emails apps.
+The main HTML document is generated from `src/templates/outer/document.twig`. Local customisations live in an optional, Git-ignored `overrides/` directory, following the same conventions as the order portal and transactional emails apps.
 
-Template lookup order (first match wins):
+Content template lookup order (first match wins):
 
 1. `overrides/companies/<id>/`
 2. `overrides/shared/`
-3. `src/templates/`
-4. `src/templates/default/`
+3. `src/templates/inner/`
 
-Copy only files that differ. For example, copy `src/templates/default/header.twig` to `overrides/companies/123/header.twig` to change company 123's header, or to `overrides/shared/header.twig` to change it for all companies. Nested includes use the same lookup order, so overriding a header does not require copying `content.twig`. Use bare template names such as `header.twig` in overrides to retain fallback behaviour.
+Copy only files that differ. For example, copy `src/templates/inner/header.twig` to `overrides/companies/123/header.twig` to change company 123's header, or to `overrides/shared/header.twig` to change it for all companies. Nested includes use the same lookup order, so overriding a header does not require copying `content.twig`. Use bare template names such as `header.twig` in overrides to retain fallback behaviour.
 
-Each package resolves `package.twig`, `labels.twig`, `content.twig` and their partials using its own `package.order.company_id`, including in mixed-company batches. The outer `document.twig` and `document.css.twig` are shared across the batch and can be overridden in `overrides/shared/`. Copy `document.css.twig` there to customise the print stylesheet; it remains a Twig template with access to `label_config`.
+Each package resolves `content.twig` and its partials using its own `package.order.company_id`, including in mixed-company batches. Structural templates (`document.twig`, `base.css`, `package.twig` and `labels.twig`) always load from the bundled `src/templates/outer/` directory via the reserved `@outer` namespace. Files with these names under `overrides/` do not replace the application layout or labels. Use the content templates and `styles.css` for local branding. To reuse a bundled inner partial explicitly from an override, use e.g. `@inner/header.twig`; this avoids including the override itself.
 
 Existing custom templates in the old `templates/company-<id>/` should be moved to `overrides/companies/<id>/`. Replace includes such as `/default/header.twig` with `header.twig` to allow individual partial overrides.
 
 Create override directories as needed and back them up separately. They are not included in fresh checkouts; without them the application renders the bundled defaults.
+
+## Custom Stylesheets
+
+Optional plain CSS files load after the bundled `src/templates/outer/base.css`, in this order:
+
+1. `overrides/shared/styles.css`
+2. `overrides/companies/<id>/styles.css` for each company present in the batch (once per company, in first-appearance order).
+
+Styles are embedded in the document head; no build or public asset URL is needed. CSS files are not processed as Twig.
+
+Packing-slip content is wrapped in `.packing-slip[data-company-id="<id>"]`. Labels remain outside this wrapper. Prefix every company selector with its wrapper to avoid affecting other companies in mixed batches:
+
+```css
+.packing-slip[data-company-id="2"] .header {
+    font-family: Georgia, serif;
+    border-bottom: 1px solid #a87940;
+}
+```
+
+Use `.packing-slip` for shared content styles. Keep page and label geometry in the outer `base.css` and `document.twig`: do not target `html`, `body`, `article`, `.labels`, `.label`, `.page-break` or `@page` from custom stylesheets. Avoid positioning content outside its wrapper and check that your content fits when printing. These are developer conventions; CSS is loaded as written, without automatic scoping or validation.
 
 ## Default Integrated Label Styles
 

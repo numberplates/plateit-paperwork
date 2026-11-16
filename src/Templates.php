@@ -10,7 +10,25 @@ final class Templates
 
     public function render(array $context): string
     {
-        return $this->environment()->render('document.twig', $context);
+        // Load plain CSS once per company, after shared styles.
+        $paths = [$this->root . '/overrides/shared/styles.css'];
+        foreach ($context['packages'] ?? [] as $package) {
+            $id = $package['order']['company_id'] ?? null;
+            if ((is_int($id) || is_string($id)) && preg_match('/^[0-9]+$/D', (string) $id)) {
+                $paths[] = $this->root . '/overrides/companies/' . $id . '/styles.css';
+            }
+        }
+        $context['custom_styles'] = '';
+        foreach (array_unique($paths) as $path) {
+            if (is_file($path)) {
+                $css = file_get_contents($path);
+                if ($css === false) {
+                    throw new \RuntimeException('Unable to read stylesheet: ' . $path);
+                }
+                $context['custom_styles'] .= "\n" . $css;
+            }
+        }
+        return $this->environment()->render('@outer/document.twig', $context);
     }
 
     private function environment(?string $companyId = null): \Twig\Environment
@@ -25,11 +43,13 @@ final class Templates
         $paths = array_values(array_filter([
             $companyId !== null ? $this->root . '/overrides/companies/' . $companyId : '',
             $this->root . '/overrides/shared',
-            $this->root . '/src/templates',
-            $this->root . '/src/templates/default',
+            $this->root . '/src/templates/inner',
         ], 'is_dir'));
         // Initialise the Twig template engine.
         $loader = new \Twig\Loader\FilesystemLoader($paths);
+        // Structural templates always come from the bundled application namespace.
+        $loader->addPath($this->root . '/src/templates/outer', 'outer');
+        $loader->addPath($this->root . '/src/templates/inner', 'inner');
         $twig = new \Twig\Environment($loader);
 
         // Initialise the Scrutinise class.
@@ -74,10 +94,10 @@ final class Templates
               ->generateLabel();
         }));
 
-        $twig->addFunction(new \Twig\TwigFunction('render_package', function (array $context) {
+        $twig->addFunction(new \Twig\TwigFunction('render_content', function (array $context) {
             $id = $context['package']['order']['company_id'] ?? null;
             $companyId = is_int($id) || is_string($id) ? (string) $id : null;
-            return $this->environment($companyId)->render('package.twig', $context);
+            return $this->environment($companyId)->render('content.twig', $context);
         }, ['needs_context' => true, 'is_safe' => ['html']]));
         return $this->environments[$key] = $twig;
     }

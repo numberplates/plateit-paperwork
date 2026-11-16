@@ -6,7 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Packing Slips</title>
     <style>
-        {{ include('document.css.twig', {'label_config': label_config}) }}
+        {# Runtime label geometry stays under application control. #}
+        @page { margin: {{ label_config.page_margin }}; }
+        article { padding: {{ label_config.page_margin }}; }
+        img.label {
+            max-width: {{ label_config.label_width }};
+            max-height: {{ label_config.label_height }};
+            margin: {{ label_config.label_margin }};
+        }
+        {{ source('@outer/base.css')|raw }}
+        {{ custom_styles|raw }}
     </style>
     <script>
         /**
@@ -30,7 +39,7 @@
         {% set sequence_number = batch_code ~ '_' ~ loop.index %}
         <article>
 
-            {{ render_package() }}
+            {{ include('@outer/package.twig') }}
 
         </article>
 

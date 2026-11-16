@@ -1,0 +1,5 @@
+{# Keep labels outside the company content styling area. #}
+{{ include('@outer/labels.twig') }}
+<div class="packing-slip" data-company-id="{{ package.order.company_id }}">
+    {{ render_content() }}
+</div>

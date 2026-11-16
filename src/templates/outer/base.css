@@ -23,12 +23,10 @@ body {
 /* Print page styles */
 @page { 
     size: 210mm 297mm; /* A4 */
-    margin: {{ label_config.page_margin }};
 }
 
 article {
     width: 210mm;
-    padding: {{ label_config.page_margin }};
 }
 
 @media print {
@@ -93,9 +91,6 @@ ol li, ul li {
 
 /* Integrated labels */
 img.label {
-    max-width: {{ label_config.label_width }};
-    max-height: {{ label_config.label_height }};
-    margin: {{ label_config.label_margin }};
     padding: 2mm;
 }
 
